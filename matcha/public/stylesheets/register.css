@@ -1,0 +1,122 @@
+.main {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: black;
+    border: 8px solid gold;
+    border-radius: 15px 15px;
+    width: 400px;
+    height: 420px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-46%);
+    padding: 20px;
+    position: absolute;
+    color: white;
+}
+
+.bg-image
+{
+    background-image: url('/images/beach.jpg');
+    width: 100%;
+    height: 600px;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#pagetitle {
+    text-align: center;
+    font-size: 40px;
+}
+
+#label_username {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#username {
+    margin-left: 10px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+
+#label_firstname {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#Firstname {
+    margin-left: 10px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+
+#label_lastname {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#Lastname {
+    margin-left: 10px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+#label_age {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#Age {
+    margin-left: 56px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+#label_email {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#Email {
+    margin-left: 40px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+
+#label_password {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#Password {
+    margin-left: 10px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+
+#label_vpassword {
+    margin-left: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#vPassword {
+    margin-left: 10px;
+    margin-top: 15px;
+    border: 3px solid gold;
+}
+
+#btnSubmit {
+    margin-top: 15px;
+    margin-left: 60px;
+    height: 30px;
+    width: 300px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px 10px;
+    border: 3px solid gold;
+}
+#btnSubmit:hover {
+    color: white;
+    background-color: gold;
+}
