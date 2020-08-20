@@ -23,7 +23,9 @@ router.get('/', (req, res) => {
             'latitude' : req.session.Latitude,
             'complete' : req.session.complete
         }
-        res.render('block_user', {title: 'Express', user : user_info, block : req.session.block_user});
+
+        let { session } = req;
+        res.render('block_user', {session, title: 'Express', user : user_info, block : req.session.block_user});
     }
     else
         res.redirect('/login');
