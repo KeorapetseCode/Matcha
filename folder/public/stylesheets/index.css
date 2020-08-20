@@ -1,0 +1,75 @@
+body{ padding: 0; margin: 0; border: none; }
+
+main{
+    width: 300px;
+    padding: 10px;
+    margin: auto;
+    text-align: center;
+    min-height: 85vh;
+}
+
+h1{ font-size: 25px; }
+#visited_btn{ text-decoration: none; background-color: lightgrey; padding:15px; }
+#home_nav{
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background-color: gold;
+    margin-top: 20px;
+}
+#home_nav a{  text-decoration: none; padding: 5px; }
+
+
+#connections{ display: none;}
+#suggestions{ display: none;}
+
+.connection{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px;
+}
+.suggestion{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px;
+}
+.connection button{
+    width: 100%;
+    height: 30px;
+    background-color: gold;
+}
+.suggestion button{
+    width: 100%;
+    height: 30px;
+    background-color: gold;
+}
+
+.connection img{ width: 90%; margin: 0 5%; }
+.suggestion img{ width: 90%; margin: 0 5%; }
+
+
+.not_complete{
+    margin: auto;
+    padding: 10px;
+    width: 280px;
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0.9);
+    background-color: black;
+    color: grey;
+}
+#not_complete_heading{
+    width: 270px;
+    padding: 5px;
+    border-bottom: 1px solid white;
+}
+.not_complete p{
+    border: 1px solid black;
+    padding: 10px;
+}
+.not_complete a{
+    margin: 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: rgba(255, 217, 0, 0.39);
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+
+</head>
+<body  onload="login()">
+  <input type="hidden" value=<%=session.user %> id='me'>
+  <span id="notification-toggle">
+    <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+  </span>
+  <div id="notification-bar"></div>
+  <nav>
+    <div id="main_menu">
+        <a href="/">home</a>
+        <a href="/chats">chats</a>
+        <a href="/connection_requests">requests</a>
+        <a href="/search_match">search</a>
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
+    </div>
+
+    <div id="user_sub_menu">
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
+        <a href="/profile_views">view my profile visits</a>
+        <a href="/My_pictures">my pics</a>
+        <a href="/settings">settings</a>
+        <a href="/logout">logout</a>
+    </div>
+  </nav>
+  <main>
+    <!-- <span>!!!project under construction!!!<br> the connections part is just a placehoder information used here form the suggestions object, even the images here are from the logged in user, this is bcoz they require the internet to load and i work offline, you may see thi image occurance in 2 or 3 more pages, user admin has not yet been touched, the styyling will also be tampered with later on, the search by age i think its not working im not sure cozz on the setupjs the value of pre entered users is set to 30 or more or less, but ill check the age when i wake up at 3pm, oh yea yea i knw also the routing in settings, but that was just test to see if i can spit the code but will be fixed,<br> please report futher bugs</span> -->
+    <% if (session.complete != 1) { %>
+      <div class="not_complete">
+        <span id="not_complete_heading">incomplete profile</span>
+        <p>most features will be locked<br>
+          go to the settings page to complete your profile.<br>
+          and fill in your additional information, and you will set to go.
+        </p>
+        <a href="/settings"> complete profile </a>
+      </div>
+
+    <% } else{ %>
+      <div class="complete">
+        <h1>welcome <%=session.user %></h1>
+        <a  id="visited_btn" href="/profile_views">view my profile visits</a>
+        
+        <div id="home_nav">
+          <a href="javascript:void(0);" onclick="connections()"> my connections</a>
+          <a href="javascript:void(0);" onclick="suggestions()"> my suggestions</a>
+        </div>
+
+
+        <div id="connections">
+            <h2>connections</h2>
+            
+              <% if (connections == 'none') {%>
+                    <span id="no_connections">you have no connections</span>
+              <% } else {
+                    let i = 0;
+                    while (connections[i])
+                    {
+                      let { username, Firstname, Lastname, Age } = connections[i];
+                      let { Orientation, Gender, Bio } = connections[i];
+                      let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = connections[i];
+                      let { fame_rating, profile_pic, last_seen} = connections[i];
+              %>  
+              <div class="connection">
+                      <img src=<%=profile_pic %> alt="connection profile picture">
+                      <span class="connection_name"><%=username %></span>
+                      <form action="/match_full_info" method="POST">
+                        
+                        <input type="hidden" name="match_username" value=<%=username %>>
+                        <input type="hidden" name="match_firstname" value=<%=Firstname %>>
+                        <input type="hidden" name="match_lastname" value=<%=Lastname %>>
+                        <input type="hidden" name="match_age" value=<%=Age %>>
+
+                        <input type="hidden" name="match_orientation" value=<%=Orientation %>>
+                        <input type="hidden" name="match_gender" value=<%=Gender %>>
+                        <input type="hidden" name="match_bio" value=<%=Bio %>>
+
+                        <input type="hidden" name="match_hobby1" value=<%=Hobby1 %>>
+                        <input type="hidden" name="match_hobby2" value=<%=Hobby2 %>>
+                        <input type="hidden" name="match_hobby3" value=<%=Hobby3 %>>
+                        <input type="hidden" name="match_hobby4" value=<%=Hobby4 %>>
+                        <input type="hidden" name="match_hobby5" value=<%=Hobby5 %>>
+
+                        <input type="hidden" name="match_fame_rating" value=<%=fame_rating %>>
+                        <input type="hidden" name="match_profilepic" value=<%=profile_pic %>>
+                        <input type="hidden" name="match_last_seen" value=<%=last_seen %>>
+
+                        <button type="submit">view profile</button>
+                      </form>
+              </div>
+              <%      i++;
+                    }
+                }
+              %>
+        </div>
+        <div id="suggestions">
+          <h2>suggestions</h2>
+          
+            <% if (suggestions == 'none') {%>
+                  <span>DEAD END! you are now all alone in the darkness this app has no users</span>
+            <% } else {
+                  let i = 0;
+                  while (suggestions[i])
+                  {
+                    let { username, Firstname, Lastname, Age } = suggestions[i];
+                    let { Orientation, Gender, Bio } = suggestions[i];
+                    let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = suggestions[i];
+                    let { fame_rating, profile_pic, last_seen} = suggestions[i];
+            %>  
+            <div class="suggestion">
+                    <img src=<%=profile_pic %> alt="suggestion profile picture">
+                    <span class="suggestion_name"><%=username %></span>
+                    <form action="/match_full_info" method="POST">
+                      
+                      <input type="hidden" name="match_username" value=<%=username %>>
+                      <input type="hidden" name="match_firstname" value=<%=Firstname %>>
+                      <input type="hidden" name="match_lastname" value=<%=Lastname %>>
+                      <input type="hidden" name="match_age" value=<%=Age %>>
+
+                      <input type="hidden" name="match_orientation" value=<%=Orientation %>>
+                      <input type="hidden" name="match_gender" value=<%=Gender %>>
+                      <input type="hidden" name="match_bio" value=<%=Bio %>>
+
+                      <input type="hidden" name="match_hobby1" value=<%=Hobby1 %>>
+                      <input type="hidden" name="match_hobby2" value=<%=Hobby2 %>>
+                      <input type="hidden" name="match_hobby3" value=<%=Hobby3 %>>
+                      <input type="hidden" name="match_hobby4" value=<%=Hobby4 %>>
+                      <input type="hidden" name="match_hobby5" value=<%=Hobby5 %>>
+
+                      <input type="hidden" name="match_fame_rating" value=<%=fame_rating %>>
+                      <input type="hidden" name="match_profilepic" value=<%=profile_pic %>>
+                      <input type="hidden" name="match_last_seen" value=<%=last_seen %>>
+
+                      <button type="submit">view profile</button>
+                    </form> 
+            </div>
+            <%      i++;
+                  }
+              }
+            %>
+        </div>
+      </div>
+    <% } %>
+  </main>
+  <footer>
+    <a href="#">matcha dataing web application</a>
+  </footer>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="javascripts/notification.js"></script>
+  <script src="javascripts/nav.js"></script>
+  <script src="javascripts/index.js"></script>
+</body>
+</html>
