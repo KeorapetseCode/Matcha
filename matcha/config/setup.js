@@ -59,7 +59,7 @@ function random_gender(genders){
     return genders[Math.floor(Math.random() * genders.length)];
 }
 
-for(i = 0; i <= 20; i++)
+for(i = 0; i <= 400; i++)
 {
     var randomName = faker.name.firstName();
     var surName = faker.name.lastName();

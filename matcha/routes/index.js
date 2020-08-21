@@ -28,7 +28,6 @@ router.get('/', (req, res) => {
             {
                 //myHobbies = myHobbiesRow[0] ? myHobbiesRow[0] : 'none';
                 let myHobbies = myHobbiesRow[0];
-
                 sql =
                         "SELECT * FROM connections INNER JOIN `users` ON `connections`.`connected_to` = `users`.`username` JOIN " +
                         "`user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `connections`.`username` = ? AND " + 
@@ -59,6 +58,7 @@ router.get('/', (req, res) => {
                                                 connections.push(connectionsRows2[i])
                                             i++;
                                         }
+                                        i = 0;
                                     }
                                 }
 //---------------------------------------------------------Suggestions Based On Hobbies----------------------------------------------------------
@@ -162,7 +162,7 @@ router.get('/', (req, res) => {
                                                                             }
                                                                             r = 0;
                                                                         }
-//--------------------------------------------------------------------------------Removing Users Who Appear more than once in suggResult Array----------------------------------------
+                    //--------------------------------------------------------------------------------Removing Users Who Appear more than once in suggResult Array----------------------------------------
                                                                         
                                                                         //indx = indx - 1; <----REMEMBER!!
                                                                         let b = 0;
@@ -174,7 +174,10 @@ router.get('/', (req, res) => {
                                                                             while (suggResults[r]){
                                                                                 if (suggResults[r].username == tempR.username){
                                                                                     a++;
-                                                                                    if (a == 2) suggResults[r].username = "Re-appearing";
+                                                                                    if (a == 2){
+                                                                                        delete suggResults[r].username;
+                                                                                        suggResults[r].username = "Re-appearing";
+                                                                                    }
                                                                                 }
                                                                                 r++;
                                                                             }
@@ -182,6 +185,25 @@ router.get('/', (req, res) => {
                                                                             r = 0;
                                                                             b++;
                                                                             tempR = suggResults[b];
+                                                                        }
+                //-------------------------------------------------------------------------------Removing Any Users You Already Connected to in suggestion----------------------------------
+                                                                        let i = 0;
+                                                                        let x = 0;
+                                                                        if (connections[i])
+                                                                        {
+                                                                            while (suggResults[x]){
+                                                                                if (suggResults[x].username != "Re-appearing"){
+                                                                                    while (connections[i]){
+                                                                                        if (suggResults[x].username == connections[i].username || suggResults[x].username == connections[i].connected_to){
+                                                                                            delete suggResults[x].username;
+                                                                                            suggResults[x].username = "Already-connected";
+                                                                                        }
+                                                                                        i++;
+                                                                                    }
+                                                                                    i = 0;
+                                                                                }
+                                                                                x++;
+                                                                            }
                                                                         }
                                                                         res.render('index', {session, connections, suggestions: suggResults});
                                                                     }
@@ -202,7 +224,6 @@ router.get('/', (req, res) => {
         });
     }
 });
-
 module.exports = router;
 
 

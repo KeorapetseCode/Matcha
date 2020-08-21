@@ -114,7 +114,7 @@
                   let i = 0;
                   while (suggestions[i])
                   {
-                    if (suggestions[i].username != "Re-appearing")
+                    if (suggestions[i].username != "Re-appearing" && suggestions[i].username != "Already-connected")
                     {
                       let { username, Firstname, Lastname, Age } = suggestions[i];
                       let { Orientation, Gender, Bio } = suggestions[i];
@@ -148,7 +148,7 @@
                       <button type="submit">view profile</button>
                     </form> 
             </div>
-            <%        }i++;
+            <%      }i++;
                   }
               }
             %>
