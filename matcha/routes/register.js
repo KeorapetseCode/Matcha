@@ -60,7 +60,8 @@ router.post('/', (req, res) => {
                             res.render('register' , {msg: 'none', error: 'failed to connect to database. Please try again'});
                     });
 
-                    sql = 'INSERT INTO `user_filters` (`username`, `Age`, `Orientation`) VALUES (?, "None", "None")';
+                    sql = 'INSERT INTO `user_filters` (`username`, `Age`, `Fame_rating`, `Hobby1`, `Hobby2`, `Hobby3`, `Hobby4`, `Hobby5`)'+
+                            ' VALUES (?, "None", "None", "None", "None", "None", "None", "None")';
                     connection.query(sql, [username], (err) => {
                         if (err)
                             res.render('register' , {msg: 'none', error: 'failed to connect to database. Please try again'});

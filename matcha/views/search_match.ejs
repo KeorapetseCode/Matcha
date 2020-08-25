@@ -51,18 +51,18 @@
                 </select>
             </div>
             <div class="filters">
-                <label for="filter2">filter by Orientation</label>
+                <label for="filter2">Filter By Popularity</label>
                 <select name="filter2" class="filter_inputs">
                     <option value="None">None</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Gay">Gay</option>
-                    <option value="Lesbian">Lesbian</option>
+                    <option value="0-10">0 to 10</option>
+                    <option value="11-50">11 to 50</option>
+                    <option value="51-100">51 to 100</option>
+                    <option value="100-Above">101 and above</option>
                 </select>
             </div>
             <div class="filters">
-                <label for="filter3">filter by hobby</label>
-                <input class="filter_inputs" type="text" name="filter3" value="None">
+                <label for="filterHobbies">Filter By Hobby</label>
+                <textarea name="multHobbies" value="None" cols="25" rows="5"></textarea>
             </div>
             <button type="submit" id="filter_submit" tabindex="11">search with filters</button>
         </form>
@@ -92,7 +92,7 @@
                 <img class="match_pic" src=<%=match_profilepic%>>
                 <div class="match_details">
                     <span class="match">username: <%=match_username%></span>
-                    <span class="match_rating">fame rating { not working yet}</span>
+                    <span class="match_rating">fame rating <%=match_fame_rating%></span>
                     <span class="match_age">age: <%=match_age%></span>
                     <span class="match_orientation">sexual preference: <%=match_orientation%></span>
                     <span class="label_bio">biography: <%=match_bio%></span>
