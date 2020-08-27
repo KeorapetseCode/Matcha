@@ -24,7 +24,7 @@ connection.query(sql, err => resHandler(err, 'Users'));
 sql = 'CREATE TABLE IF NOT EXISTS matcha.user_hobbies(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Hobby1 VARCHAR(25), Hobby2 VARCHAR(25), Hobby3 VARCHAR(25), Hobby4 VARCHAR(25), Hobby5 VARCHAR(25))';
 connection.query(sql, err => resHandler(err, 'User_hobbies'));
 
-sql = 'CREATE TABLE IF NOT EXISTS matcha.user_filters(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Age VARCHAR(11), Fame_rating VARCHAR(11), Hobby1 VARCHAR(255), Hobby2 VARCHAR(255), Hobby3 VARCHAR(255), Hobby4 VARCHAR(255), Hobby5 VARCHAR(255))';
+sql = 'CREATE TABLE IF NOT EXISTS matcha.user_filters(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Age VARCHAR(11), Fame_rating VARCHAR(11), Hobby1 VARCHAR(255), Hobby2 VARCHAR(255))';
 connection.query(sql, err => resHandler(err, 'User_filters'));
 
 sql = 'CREATE TABLE IF NOT EXISTS matcha.messages (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, sentby VARCHAR(255) NOT NULL, sentto VARCHAR(255) NOT NULL, message VARCHAR(255) NOT NULL, msg_state VARCHAR(255) NOT NULL, date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)';

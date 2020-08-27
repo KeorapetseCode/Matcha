@@ -11,6 +11,17 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/messages.css">
 </head>
 <body onload="login()">
+  <input type="hidden" value=<%=session.user %> id='me'>
+  <input type="hidden" value=<%=themName %> id='them'>
+
+  <div id="notification-links">
+    <a id="notification-link" href="javascript:void(0)" onclick="displayNotifications()">new notifications</a>
+    <!-- <a id="message-link" href="javascript:void(0)" onclick="displayMessages()">peep messages</a> -->
+    <a href="/my_notifications">notifications</a>
+  </div>
+  <div id="notification-bar"></div>
+  <!-- <div id="message-bar"></div> -->
+  
   <nav>
     <div id="main_menu">
         <a href="/">home</a>
@@ -32,6 +43,9 @@
     </div>
   </nav>
   <main >
+    <h1>messages</h1>
+    <span id="_match_status"></span>
+    <hr>
     <div id="messages">
       <%
         let themNum1 = themNum - 1;
@@ -39,7 +53,7 @@
         while (themNum1 >= 0){
           let msg = themMsg[themNum1].message; 
           let name = themName;
-          let time = themMsg[themNum1].date_time
+          let time = themMsg[themNum1].date_time;
       %>
           <div class="message-them">
             <p><%= name%></p>
@@ -56,11 +70,13 @@
         while (meNum1 >= 0){
           msg = meMsg[meNum1].message; 
           name = meName;
-          time = meMsg[meNum1].date_time
+          time = meMsg[meNum1].date_time;
       %>
           <div class="message-me">
             <p><%= name%> (me)</p>
             <p><%= msg%></p>
+            <% let isSeen = (meMsg[meNum1].msg_state == '1')? 'seen' : 'message unseen'; %>
+            <p class="seen">seen: <%= isSeen %></p>
             <p><%= time%></p>
           </div>  
       <%
@@ -72,7 +88,8 @@
         <input type="text" name="them" id="them" value="<%= themName%>" style="display: none;">
         <input type="text" name="me" id="me" value="<%= meName%>" style="display: none;">
         <input type="text" name="socket_id" id="socketId" value="" style="display: none;">
-        <input type="text" name="msg" id="msg">
+        <!-- <input type="textarea" name="msg" id="msg" required> -->
+        <textarea name="msg" id="msg" rows="2" required></textarea>
         <button  onclick="sendBtn()" >send</button>
     </div>
   </main>

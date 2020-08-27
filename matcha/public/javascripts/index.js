@@ -1,6 +1,7 @@
-
-
-function connections(){
+// ***
+// toggle button for all the users connected to this user
+function connections() 
+{
     let connections = document.getElementById('connections');
     let suggestions = document.getElementById('suggestions');
 
@@ -11,7 +12,10 @@ function connections(){
         connections.style.display = 'block';
 }
 
-function suggestions(){
+// ***
+// toggle button for all the suggested users to this user
+function suggestions() 
+{
     let connections = document.getElementById('connections');
     let suggestions = document.getElementById('suggestions');
 
