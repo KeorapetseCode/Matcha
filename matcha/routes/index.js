@@ -68,11 +68,11 @@ router.get('/', (req, res) => {
                                 let r = 0;
                                 let indx = 0;
                                 sql = 
-                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
                                 
                                 connection.query(sql, [session.user, Hobby1, Hobby1, Hobby1, Hobby1, Hobby1], (err, suggByHobby1) => {
@@ -88,10 +88,10 @@ router.get('/', (req, res) => {
                                         }
                                         sql = 
                                                 'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
-                                                ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
+                                                ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `users`.block_status, `user_hobbies`.`Hobby1`,' +
                                                 ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                 '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                 '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                         connection.query(sql, [session.user, Hobby2, Hobby2, Hobby2, Hobby2, Hobby2], (err, suggByHobby2) => {
@@ -106,11 +106,11 @@ router.get('/', (req, res) => {
                                                     r = 0;
                                                 }
                                                 sql = 
-                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                 connection.query(sql, [session.user, Hobby3, Hobby3, Hobby3, Hobby3, Hobby3], (err, suggByHobby3) => {
@@ -125,11 +125,11 @@ router.get('/', (req, res) => {
                                                             r = 0;
                                                         }
                                                         sql = 
-                                                                'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                                'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                                 ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                                 ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                                 '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                                ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                                ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                                 '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                         connection.query(sql, [session.user, Hobby4, Hobby4, Hobby4, Hobby4, Hobby4], (err, suggByHobby4) => {
@@ -144,11 +144,11 @@ router.get('/', (req, res) => {
                                                                     r = 0;
                                                                 }
                                                                 sql = 
-                                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                                 connection.query(sql, [session.user, Hobby5, Hobby5, Hobby5, Hobby5, Hobby5], (err, suggByHobby5) => {

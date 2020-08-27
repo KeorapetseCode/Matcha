@@ -65,10 +65,11 @@ router.get('/', (req, res) => {
 //                                   ----------------------All blank------------------------------
                 if (rows1[0].Age == "None" && rows1[0].Fame_rating == "None" && rows1[0].Hobby1 == "None" && rows1[0].Hobby2 == "None") {
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,`users`.`fame_rating`,"+
-                                    "`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`,"+
+                                    "`users`.`block_status`,`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`,"+
                                     "`users`.`Latitude`, `users`.`Longitude`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`,"+
                                     "`user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN"+
-                                    " `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? ORDER BY"+
+                                    " `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? "+
+                                    "AND `users`.`block_status` = 0 ORDER BY"+
                                     " `users`.`fame_rating` DESC", [req.session.user], (err, users) => {
                         if (err)
                             console.log(err);
@@ -152,10 +153,10 @@ router.get('/', (req, res) => {
                         age_max = 70;
                     }
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,`users`.`fame_rating`,"+
-                                    "`users`.`Lastname`,`users`.`Age`,`users`.`Orientation`,`users`.`Bio`,`users`.`profile_pic`,"+
+                                    "`users`.`block_status`, `users`.`Lastname`,`users`.`Age`,`users`.`Orientation`,`users`.`Bio`,`users`.`profile_pic`,"+
                                     "`user_hobbies`.`Hobby1`,`user_hobbies`.`Hobby2`,`user_hobbies`.`Hobby3`,`user_hobbies`.`Hobby4`,"+
                                     "`user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` "+
-                                    "WHERE `users`.`username` != ? AND `users`.`Age` >= ? AND `users`.`Age` <= ? ORDER BY `users`.`fame_rating` DESC",
+                                    "WHERE `users`.`username` != ? AND `users`.`block_status` = 0 AND `users`.`Age` >= ? AND `users`.`Age` <= ? ORDER BY `users`.`fame_rating` DESC",
                                     [req.session.user, age_min, age_max], (err, users) => {
                         if (err)
                             console.log(err);
@@ -204,11 +205,11 @@ router.get('/', (req, res) => {
                 }
  //---------------------------------------------------Both Hobbies----------------------------------------               
                 else if (rows1[0].Hobby1 != "None" && rows1[0].Hobby2 != "None" && rows1[0].Fame_rating == "None"  && rows1[0].Age == "None"){
-                    connection.query("SELECT `users`.`id`, `users`.`username`,`users`.`last_seen`,`users`.`Firstname`, `users`.`Lastname`, "+
-                                    "`users`.`Age`, `users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
+                    connection.query("SELECT `users`.`id`, `users`.`username`,`users`.`last_seen`,`users`.`Firstname`, `users`.`fame_rating`, `users`.`Lastname`, "+
+                                    "`users`.`block_status`,`users`.`Age`, `users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
                                     "`user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, "+
                                     "`user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON "+
-                                    "`users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND "+
+                                    "`users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND `users`.`block_status` = 0 AND"+
                                     "(`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? "+
                                     "OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY `users`.`fame_rating` DESC",
                                     [req.session.user, req.session.filters.filter4, req.session.filters.filter4, req.session.filters.filter4,
@@ -225,11 +226,11 @@ router.get('/', (req, res) => {
                                 }
                             }
                             connection.query("SELECT `users`.`id`,`users`.`username`,`users`.`last_seen`,`users`.`Firstname`, `users`.`Lastname`, "+
-                                        "`users`.`Age`, `users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
+                                        "`users`.`block_status`,`users`.`Age`, `users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
                                         "`user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, "+
                                         "`user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON "+
                                         "`users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND "+
-                                        "(`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? "+
+                                        "`users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? "+
                                         "OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY `users`.`fame_rating` DESC",
                                         [req.session.user, req.session.filters.filter3, req.session.filters.filter3, req.session.filters.filter3, 
                                             req.session.filters.filter3, req.session.filters.filter3], (err, usersA) => {
@@ -306,12 +307,12 @@ router.get('/', (req, res) => {
                         fame_max = 1000000;
                     }
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,"+
-                                    "`users`.`fame_rating`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, "+
+                                    "`users`.`fame_rating`,`users`.`block_status`,`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, "+
                                     "`users`.`Bio`, `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, "+
                                     "`user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` "+
                                     "INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE "+
-                                    "`users`.`Fame_rating` >= ? AND `users`.`Fame_rating` <= ? AND `users`.`username` != ? ",
-                                    [fame_min, fame_max, req.session.user], (err, users) => {
+                                    "`users`.`Fame_rating` >= ? AND `users`.`Fame_rating` <= ? AND `users`.`username` != ? AND "+
+                                    "`users`.`block_status` = 0", [fame_min, fame_max, req.session.user], (err, users) => {
                         if (err) {
                             console.log(err);
                             console.log("Couldn't fetch usersC");
@@ -414,11 +415,11 @@ router.get('/', (req, res) => {
                         age_max = 70;
                     }
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`, "+
-                                    "`users`.`fame_rating`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, "+
+                                    "`users`.`fame_rating`, `users`.`block_status`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, "+
                                     "`users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, "+
                                     "`user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON "+
                                     "`users`.`username` = `user_hobbies`.`username` WHERE (`users`.`Fame_rating` >= ? AND `users`.`Fame_rating` <= ?)"+
-                                    " AND `users`.`username` != ? AND (`users`.`Age` >= ? AND `users`.`Age` <= ?)",
+                                    " AND `users`.`username` != ? AND `users`.`block_status` = 0 AND (`users`.`Age` >= ? AND `users`.`Age` <= ?)",
                                     [fame_min, fame_max, req.session.user, age_min, age_max], (err, users) => {
                         if (err) {
                             console.log(err);
@@ -474,11 +475,11 @@ router.get('/', (req, res) => {
 
                 else if (rows1[0].Hobby1 != "None" && rows1[0].Hobby2 == "None") {
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Firstname`, `users`.`Lastname`, "+
-                                    "`users`.`Age`, `users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
+                                    "`users`.`Age`, `users`.`fame_rating`,`users`.`block_status`,`users`.`Gender`,`users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, "+
                                     "`user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, "+
                                     "`user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON "+
                                     "`users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND "+
-                                    "(`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? "+
+                                    "`users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? "+
                                     " OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY `users`.`fame_rating` DESC",
                                     [req.session.user, req.session.filters.filter3, req.session.filters.filter3, req.session.filters.filter3,
                                     req.session.filters.filter3, req.session.filters.filter3], (err, users) => {
@@ -535,11 +536,11 @@ router.get('/', (req, res) => {
 
                 else if (rows1[0].Hobby2 != "None" && rows1[0].Hobby1 == "None") {
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`, "+
-                                    "`users`.`fame_rating`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, "+
+                                    "`users`.`fame_rating`,`users`.`block_status`,`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, "+
                                     "`users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, "+
                                     "`user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON "+
                                     "`users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND "+
-                                    "(`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? OR "+
+                                    "`users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? OR "+
                                     "`user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)"+
                                     "ORDER BY `users`.`fame_rating` DESC", [req.session.user, req.session.filters.filter4,
                                      req.session.filters.filter4, req.session.filters.filter4, req.session.filters.filter4, 

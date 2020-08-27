@@ -18,7 +18,7 @@ connection.query(sql, err => {
     console.log('database created..');
 });
 
-sql = 'CREATE TABLE IF NOT EXISTS matcha.users(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Firstname VARCHAR(255) NOT NULL, Lastname VARCHAR(255) NOT NULL,Age INT(11), Email VARCHAR(255) NOT NULL, Password VARCHAR(255) NOT NULL, Token VARCHAR(255) DEFAULT \'NULL\',Reset_token VARCHAR(255) DEFAULT \'NULL\', City VARCHAR(255),Longitude FLOAT DEFAULT 0, Latitude FLOAT DEFAULT 0,Gender VARCHAR(255), Orientation VARCHAR(255), Bio VARCHAR(1000), profile_pic VARCHAR(1000), Online INT(1) DEFAULT 0, Verify INT(1) DEFAULT 0, Complete INT(1) DEFAULT 0, last_seen VARCHAR(50),fame_rating INT(15) DEFAULT 0, admin INT(1) DEFAULT 0)'; 
+sql = 'CREATE TABLE IF NOT EXISTS matcha.users(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Firstname VARCHAR(255) NOT NULL, Lastname VARCHAR(255) NOT NULL,Age INT(11), Email VARCHAR(255) NOT NULL, Password VARCHAR(255) NOT NULL, Token VARCHAR(255) DEFAULT \'NULL\',Reset_token VARCHAR(255) DEFAULT \'NULL\', City VARCHAR(255),Longitude FLOAT DEFAULT 0, Latitude FLOAT DEFAULT 0,Gender VARCHAR(255), Orientation VARCHAR(255), Bio VARCHAR(1000), profile_pic VARCHAR(1000), Online INT(1) DEFAULT 0, Verify INT(1) DEFAULT 0, Complete INT(1) DEFAULT 0, last_seen VARCHAR(50),fame_rating INT(15) DEFAULT 0, block_status INT(2) DEFAULT 0,admin INT(1) DEFAULT 0)'; 
 connection.query(sql, err => resHandler(err, 'Users'));
 
 sql = 'CREATE TABLE IF NOT EXISTS matcha.user_hobbies(id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(255) NOT NULL, Hobby1 VARCHAR(25), Hobby2 VARCHAR(25), Hobby3 VARCHAR(25), Hobby4 VARCHAR(25), Hobby5 VARCHAR(25))';
