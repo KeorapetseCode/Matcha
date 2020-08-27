@@ -61,9 +61,8 @@ router.get('/', (req, res) => {
                 let age_min;
                 let age_max;
                 let distance_array = [];
-
 //                                   ----------------------All blank------------------------------
-                if (rows1[0].Age == "None" && rows1[0].Fame_rating == "None" && rows1[0].Hobby1 == "None" && rows1[0].Hobby2 == "None") {
+                if (rows1[0].Age == "None" && rows1[0].Fame_rating == "None" && rows1[0].Hobby1 == "None" && rows1[0].Hobby2 == "None" && rows1[0].City == "None") {
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,`users`.`fame_rating`,"+
                                     "`users`.`block_status`,`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`,"+
                                     "`users`.`Latitude`, `users`.`Longitude`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`,"+
@@ -287,6 +286,84 @@ router.get('/', (req, res) => {
                         }
                     })
                 }
+//-----------------------------------------------------------City Only------------------------------------------------
+                else if (rows1[0].Age == "None" && rows1[0].Fame_rating == "None" && rows1[0].Hobby1 == "None" && rows1[0].Hobby2 == "None" && rows1[0].City){
+                    let find_city;
+                    if (rows1[0].City == "Hong Kong") find_city = "Hong Kong";
+                    else if (rows1[0].City == "Bangkok") find_city = "Bangkok";
+                    else if (rows1[0].City == "London") find_city = "London";
+                    else if (rows1[0].City == "Paris") find_city = "Paris";
+                    else if (rows1[0].City == "New York City") find_city = "New York City";
+                    else if (rows1[0].City == "Tokyo") find_city = "Tokyo";
+                    else if (rows1[0].City == "Rome") find_city = "Rome";
+                    else if (rows1[0].City == "Miami") find_city = "Miami";
+                    else if (rows1[0].City == "Amsterdam") find_city = "Amsterdam";
+                    else if (rows1[0].City == "Cape Town") find_city = "Cape Town";
+                    else if (rows1[0].City == "Johannesburg") find_city = "Johannesburg";
+                    else if (rows1[0].City == "Las Vegas") find_city = "Las Vegas";
+                    else if (rows1[0].City == "Barcelona") find_city = "Barcelona";
+                    else if (rows1[0].City == "Madrid") find_city = "Madrid";
+                    else if (rows1[0].City == "Cairo") find_city = "Cairo";
+                    else{
+                        find_city = "Pretoria";
+                    }
+                    connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,"+
+                                    "`users`.`fame_rating`,`users`.`block_status`,`users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, "+
+                                    "`users`.`Bio`, `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, "+
+                                    "`user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` "+
+                                    "INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE "+
+                                    "`users`.`City` = ? AND `users`.`username` != ? AND `users`.`block_status`= 0", 
+                                    [find_city, req.session.user], (err, users) => {
+                        if (err) {
+                            console.log(err);
+                            console.log("Couldn't fetch City");
+                        }
+                        else {
+                            console.log("Fetching City");
+                            req.session.search_results_backup = users;
+                            
+                            var x = 0;
+                            while (users[x]) {
+                                let match_username = users[x].username;
+                                let latt = users[x].Latitude;
+                                let longg = users[x].Longitude;
+                                let mylatt = req.session.Latitude;
+                                let mylong = req.session.Longitude;
+                                if (latt == undefined) {
+                                    latt = 0;
+                                }
+                                if (longg == undefined) {
+                                    longg = 0;
+                                }
+                                if (mylatt == undefined) {
+                                    mylatt = 0;
+                                }
+                                if (mylong == undefined) {
+                                    mylong = 0;
+                                }
+                                var meters = geo_tools.distanceTo({lat: mylatt, lon: mylong}, {lat: latt, lon: longg});
+                                var kilometers = meters / 1000;
+                                distance_array[x] = kilometers;
+                                
+                                x++;
+                            }
+                            var user_info = {
+                                'username' : req.session.user,
+                                'Email' : req.session.Email,
+                                'Firstname' : req.session.Firstname,
+                                'Lastname' : req.session.Lastname,
+                                'profile_pic' : req.session.profile_pic,
+                                'complete' : req.session.complete
+                            }
+                            var complete = 0;
+                            if (req.session.complete) {
+                                complete = 1;
+                            }
+                            res.render('search_match', {results: users, user : user_info, complete : complete, filters : req.session.filters, distance : distance_array});
+
+                        }
+                    })
+                }
 // ------------------------------------------------------------Fame Only---------------------------------------------------
 
                 else if (rows1[0].Age == "None" && rows1[0].Fame_rating != "None" && rows1[0].Hobby1 == "None" && rows1[0].Hobby2 == "None") {
@@ -312,7 +389,7 @@ router.get('/', (req, res) => {
                                     "`user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` "+
                                     "INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE "+
                                     "`users`.`Fame_rating` >= ? AND `users`.`Fame_rating` <= ? AND `users`.`username` != ? AND "+
-                                    "`users`.`block_status` = 0", [fame_min, fame_max, req.session.user], (err, users) => {
+                                    "`users`.`block_status`= 0", [fame_min, fame_max, req.session.user], (err, users) => {
                         if (err) {
                             console.log(err);
                             console.log("Couldn't fetch usersC");
@@ -617,13 +694,15 @@ router.post('/', (req, res) => {
             age: req.body.filter1,
             fame_rating: req.body.filter2,
             hobby1: req.body.filter3,
-            hobby2: req.body.filter4
+            hobby2: req.body.filter4,
+            city: req.body.filter5
         };
         session = req.session;
         
-        let sql = 'UPDATE user_filters SET Age = ?, Fame_rating = ?, Hobby1 = ?, Hobby2 = ? WHERE username = ?';
-        connection.query(sql, [req.body.filter1, req.body.filter2, req.body.filter3, req.body.filter4, session.user], (err) => {
-            if (err) console.log(err); 
+        let sql = 'UPDATE user_filters SET Age = ?, Fame_rating = ?, City = ?, Hobby1 = ?, Hobby2 = ? WHERE username = ?';
+        connection.query(sql, [req.body.filter1, req.body.filter2, req.body.filter5, req.body.filter3, req.body.filter4, session.user],
+        (err) => {
+            if (err) console.log(err);
         });
         res.redirect('/search_match');
     }
