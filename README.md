@@ -1,8 +1,8 @@
 # matcha_v1
-Tinder Dating web application (search, match and chat) <br />
+Tinder dating web application (search, match and chat) <br />
 First group project in the Web1 module <br />
 # Objective
-Students are required to use any program language of their chioce. Implement industry level web techniques. <br />
+Students are allowed to use any programming language of chioce. Implement industry level web techniques. <br />
 The application should have clearly the front-end, back-end and database<br />
 Implement the required search algorithm as the question paper prompts. The search algorithm tests students on SQL querrying techniques<br />
 The application should be ran with already at least 20 random users in the database.<br />
