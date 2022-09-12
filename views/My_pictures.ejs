@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/My_pictures.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  </head>
+  <body onload="login()">
+    <input type="hidden" value=<%=user.username %> id='me'>
+    <span id="notification-toggle">
+      <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+    </span>
+    <div id="notification-bar"></div>
+    <nav>
+      <div id="main_menu">
+          <a href="/">home</a>
+          <a href="/chats">chats</a>
+          <a href="/connection_requests">requests</a>
+          <a href="/search_match">search</a>
+          <a href="javascript:void(0);" onclick="userSubMenu()">
+              <img id="profile_pic" src=<%=user.profile_pic %> alt="menu">
+          </a>
+      </div>
+
+      <div id="user_sub_menu">
+          <a href="javascript:void(0);" onclick="userSubMenu()">
+              <img id="profile_pic" src=<%=user.profile_pic %> alt="menu">
+          </a>
+          <a href="/profile_views">view my profile visits</a>
+          <a href="/My_pictures">my pics</a>
+          <a href="/settings">settings</a>
+          <a href="/logout">logout</a>
+      </div>
+    </nav>
+
+    <main>
+      <%
+        if (user.complete == 0){ %>
+          <span>incomplete profile</span>
+          <a href="/settings">Click Here to go to settings</a>
+        <% }
+        else{ %>
+          <h1 id="pagetitle">My pictures</h1>
+          <p>Choose an image(min: 1, max: <%= image_upload_limit %>)</p>
+          
+          <%
+            if (amount == "Too much images"){ %>
+                <span>you have reach your upload limit</span>
+            <% }else if (uploaded_images == "yes"){ %>
+                <span>Your images were successfully uploaded!</span>
+            <%
+            } 
+          %>
+          <form id="upload_form" action="/My_pictures" method="POST" enctype="multipart/form-data">
+            <input type="file" name="photos" multiple>
+            <button type="submit">upload</button>
+          </form>
+
+          <div class="result_div">
+              <%
+                var x = 0;
+                while (images[x]){
+                    let image = images[x].image; %>
+                <form action="/My_pictures/change_profile_pic" method="POST">
+                  <img class="my_image"src=<%=image%>>
+                  <input type="hidden" name="set_this_pic" value=<%=image%>>
+                  <button id="setpic_"type="submit">set as profile pic</button>
+                </form>
+
+                <form action="/remove_image" method="POST">
+                  <input type="hidden" name="remove" value=<%=image%>>
+                  <button id="delete_" type="submit">delete</button>
+                </form>
+                
+                <% x++;
+                } %>
+          </div>
+      <%
+      } %>
+        </main>
+      <footer>
+          <a href="#">matcha dating app</a>
+      </footer>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="javascripts/notification.js"></script>
+      <script src="javascripts/settings.js"></script>
+  </body>
+</html>

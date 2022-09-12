@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>block user</title>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/block_user.css">
+    </head>
+    <body onload="login()">
+        <input type="hidden" value=<%=session.user %> id='me'>
+        <span id="notification-toggle">
+          <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+        </span>
+        <div id="notification-bar"></div>
+        <nav>
+            <div id="main_menu">
+                <a href="/">home</a>
+                <a href="/chats">chats</a>
+                <a href="/connection_requests">requests</a>
+                <a href="/search_match">search</a>
+                <a href="javascript:void(0);" onclick="userSubMenu()">
+                    <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+                </a>
+            </div>
+            <div id="user_sub_menu">
+                <a href="javascript:void(0);" onclick="userSubMenu()">
+                    <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+                </a>
+                <a href="/My_pictures">my pics</a>
+                <a href="/settings">settings</a>
+                <a href="/logout">logout</a>
+            </div>
+        </nav>
+        <main>
+            <h1 id="page_title">please add a reason for blocking <%=block%></h1>
+            <form action="/send_block" method="POST">
+                <textarea id="reason" name="reason" placeholder="Reason for blocking" required></textarea>
+                <input type="hidden" name="blocked_user" value=<%=block%>>
+                <button type="submit">send block request</button>
+            </form>
+        </main>
+        <footer>
+            <a href="#">matcha dating web application</a>
+        </footer>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="javascripts/notification.js"></script>
+        <script src="javascripts/nav.js"></script>
+    </body>
+</html>
